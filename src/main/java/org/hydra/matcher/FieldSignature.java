@@ -1,14 +1,14 @@
 package org.hydra.matcher;
 
 public class FieldSignature {
-	public FieldSignature(String name2) {
-		this.name = name2;
+	public FieldSignature(String name) {
+		this.name = name;
 	}
 
 	private String name;
-	private int flags;
+	protected int flags;
 	private ClassSignature type;
-	private Object value;
+	protected Object value;
 
 	public void setFlags(int access) {
 		this.flags = access;

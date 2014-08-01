@@ -14,7 +14,7 @@ public class MethodSignature {
 
     private String name;
     private ClassSignature returnType;
-    private int flags;
+    protected int flags;
     private List<ClassSignature> params = new ArrayList<ClassSignature>();
     private List<ClassSignature> exceptions = new ArrayList<ClassSignature>();
     private int insnCode = 0;

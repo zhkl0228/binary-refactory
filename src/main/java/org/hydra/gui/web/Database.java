@@ -151,6 +151,7 @@ public class Database {
                     return db;
                 } catch (Exception e) {
                     Log.error(e.toString());
+                } finally {
                     Utils.close(ois);
                 }
             }
