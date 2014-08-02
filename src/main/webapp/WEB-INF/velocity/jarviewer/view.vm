@@ -74,9 +74,11 @@
 #end
 #macro(showFlags $node)
     #if($node.public)#red("public")#end
-    #if($node.abstract)#red("abstract")#end
+    #if($node.private)#red("private")#end
+    #if($node.protected)#red("protected")#end
     #if($node.static)#red("static")#end
     #if($node.final)#red("final")#end
+    #if($node.abstract)#red("abstract")#end
 #end
     <div class="container-fluid">
       <div class="sidebar">

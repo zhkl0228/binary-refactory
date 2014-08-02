@@ -9,11 +9,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 
+import org.hydra.renamer.asm.BRRemapper;
 import org.hydra.renamer.asm.ClassForNameFixVisitor;
-import org.hydra.renamer.asm.Remapper;
 import org.hydra.util.Log;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 
 public class Renamer {
@@ -32,7 +33,8 @@ public class Renamer {
             Log.debug("Parsed config:\n%s", config.getConfig());
             classMap.rebuildConfig(config, null);
             // Log.debug("Rebuild config:\n%s", config.getConfig());
-            Remapper remapper = new Remapper(config);
+            
+            Remapper remapper = new BRRemapper(config);
 
             Enumeration<JarEntry> entries = jar.entries();
 
@@ -77,9 +79,14 @@ public class Renamer {
 
     private static byte[] renameClazz(Remapper remapper, InputStream clazz) {
         try {
-            ClassWriter writer = new ClassWriter(1);
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             ClassReader reader = new ClassReader(clazz);
-            reader.accept(new ClassForNameFixVisitor(new RemappingClassAdapter(writer, remapper), remapper), 8);
+            
+            RemappingClassAdapter remappingClassAdapter = new RemappingClassAdapter(writer, remapper);
+            
+            ClassForNameFixVisitor classForNameFixVisitor = new ClassForNameFixVisitor(remappingClassAdapter, remapper);
+            reader.accept(classForNameFixVisitor, ClassReader.EXPAND_FRAMES);
+            
             return writer.toByteArray();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

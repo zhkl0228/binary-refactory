@@ -3,6 +3,7 @@ package org.hydra.renamer.asm;
 import org.hydra.util.Log;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.commons.Remapper;
 
 public class ClassForNameFixMethodVistor extends MethodVisitor {
 
@@ -16,9 +17,9 @@ public class ClassForNameFixMethodVistor extends MethodVisitor {
 
     @Override
     public void visitLdcInsn(Object cst) {
-        if (cst instanceof String && cst != null) {
+        if (String.class.isInstance(cst)) {
             // 如果是装载一个常量的字符串，检查在不在我们的类名列表里，如果是，就修改掉
-            String oldName = ((String) cst).replace('.', '/');
+            String oldName = String.class.cast(cst).replace('.', '/');
             // Log.debug("visitLdcInsn %s", oldName);
             String newName = remapper.map(oldName);
             if (newName != null && !oldName.equals(newName)) {

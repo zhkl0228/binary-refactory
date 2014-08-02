@@ -38,4 +38,16 @@ public abstract class AccessableNode {
     public boolean isFinal() {
         return Modifier.isFinal(this.access);
     }
+    
+    public boolean isProtected() {
+    	return Modifier.isProtected(this.access);
+    }
+    
+    public boolean isPrivate() {
+    	return Modifier.isPrivate(this.access);
+    }
+    
+    public boolean isSynchronized() {
+    	return Modifier.isSynchronized(this.access);
+    }
 }

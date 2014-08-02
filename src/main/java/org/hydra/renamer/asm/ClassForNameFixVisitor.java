@@ -3,6 +3,7 @@ package org.hydra.renamer.asm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.commons.Remapper;
 
 public class ClassForNameFixVisitor extends ClassVisitor {
     private Remapper remapper;
@@ -14,7 +15,8 @@ public class ClassForNameFixVisitor extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        return new ClassForNameFixMethodVistor(super.visitMethod(access, name, desc, signature, exceptions), remapper);
+    	MethodVisitor visitor = super.visitMethod(access, name, desc, signature, exceptions);
+        return new ClassForNameFixMethodVistor(visitor, remapper);
     }
 
 }

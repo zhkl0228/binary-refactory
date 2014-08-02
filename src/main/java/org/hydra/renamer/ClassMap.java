@@ -149,7 +149,7 @@ public class ClassMap {
         ClassReader reader;
         try {
             reader = new ClassReader(inputStream);
-            reader.accept(cv, 8);
+            reader.accept(cv, ClassReader.EXPAND_FRAMES);
         } catch (IOException e) {
             e.printStackTrace();
         }
