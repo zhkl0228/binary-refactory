@@ -49,6 +49,7 @@
 			     SyntaxHighlighter.all()
 			</script>
         </div>
+        </div>
         #include("/footer.vm")
     </body>
 </html>

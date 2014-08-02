@@ -14,19 +14,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jd.core.Decompiler;
+import jd.core.DecompilerException;
+
+import org.apache.commons.io.FileUtils;
 import org.hydra.renamer.ClassInfo;
 import org.hydra.renamer.ClassMap;
 import org.hydra.renamer.ClassMap.ClassWalker;
 import org.hydra.renamer.RenameConfig;
+import org.hydra.renamer.asm.MyTraceClassVisitor;
 import org.hydra.util.Utils;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.util.TraceClassVisitor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +42,7 @@ import ru.andrew.jclazz.core.Clazz;
 import ru.andrew.jclazz.core.ClazzException;
 import ru.andrew.jclazz.decompiler.ClazzSourceView;
 import ru.andrew.jclazz.decompiler.ClazzSourceViewFactory;
+import ru.andrew.jclazz.decompiler.JarInputStreamBuilder;
 
 @Controller
 @RequestMapping("/jarviewer")
@@ -164,7 +170,6 @@ public class ViewController {
 
             };
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -193,29 +198,49 @@ public class ViewController {
             if (type.equals("asmdump")) {
                 code = asmDump(inputStream);
             } else if (type.equals("decomp")) {
-                code = jclazzDecomp(clazzName, inputStream);
+            	try {
+					code = jdDecomp(clazzName, path.getFullName());
+				} catch (DecompilerException e) {
+	                code = jclazzDecomp(clazzName, jarFile, inputStream);
+				}
             }
             model.addAttribute("code", code);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-    private String asmDump(InputStream inputStream) throws IOException {
+    private String jdDecomp(String clazzName, String path) throws DecompilerException, IOException {
+    	File tmp = null;
+    	try {
+    		if(!path.toLowerCase().endsWith(".jar")) {
+        		tmp = File.createTempFile(UUID.randomUUID().toString(), ".jar");
+        		FileUtils.copyFile(new File(path), tmp);
+        		path = tmp.getAbsolutePath();
+        	}
+        	return new Decompiler().decompile(path, clazzName);
+    	} finally {
+    		if(tmp != null &&
+    				!tmp.delete()) {
+    			tmp.deleteOnExit();
+    		}
+    	}
+	}
+
+	private String asmDump(InputStream inputStream) throws IOException {
         ClassReader reader = new ClassReader(inputStream);
 
         StringWriter writer = new StringWriter();
-        reader.accept(new TraceClassVisitor(new PrintWriter(writer)), 0);
+        reader.accept(new MyTraceClassVisitor(new PrintWriter(writer)), 0);
         String code = writer.toString().trim();
         return code;
     }
 
-    private String jclazzDecomp(String clazzName, InputStream inputStream) {
+    private String jclazzDecomp(String clazzName, JarFile jarFile, final InputStream inputStream) {
         try {
             Clazz clazz = new Clazz(clazzName,inputStream);
-            ClazzSourceView csv = ClazzSourceViewFactory.getClazzSourceView(clazz);
+            ClazzSourceView csv = ClazzSourceViewFactory.getClazzSourceView(clazz, new JarInputStreamBuilder(jarFile));
             return csv.getSource();
         } catch (ClazzException e) {
             e.printStackTrace();
@@ -235,7 +260,6 @@ public class ViewController {
             view.setBufferSize(4 * 1024);
             view.setContentDisposition("attachment; filename=\"" + path.getOrigName() + "\"");
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return view;

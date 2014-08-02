@@ -34,7 +34,7 @@ public class UploadController {
     @RequestMapping(value = "upload", method = RequestMethod.POST)
     public String upload(Model model, @RequestParam("file") MultipartFile file) {
         String id = Database.Util.nextId();
-        File f = new File(Database.getConfig().getUploadPath(), id + ".upload");
+        File f = new File(Database.getConfig().getUploadPath(), id + ".jar");
         OutputStream os = null;
         try {
             os = new FileOutputStream(f);

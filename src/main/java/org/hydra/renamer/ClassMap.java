@@ -60,7 +60,7 @@ public class ClassMap {
         String[] arr = fullName.split("/");
         // 除了最后一层包名外，前面的都只取第一个字符
         for (int i = 0; i < arr.length - 1; i++) {
-            shortName.append(arr[i].charAt(0)).append("/");
+            shortName.append(arr[i]/*.charAt(0)*/).append("/");
         }
 
         shortName.append(arr[arr.length - 1]);

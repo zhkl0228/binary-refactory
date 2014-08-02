@@ -75,7 +75,7 @@ public class RenamerController {
         String oldjar = path.getFullName();
         String newjar = jar + "_" + path.getVersion();
 
-        File file = new File(Database.getConfig().getUploadPath(), newjar + ".upload");
+        File file = new File(Database.getConfig().getUploadPath(), newjar + ".jar");
 
         String filePath = null;
         try {

@@ -130,9 +130,9 @@
             #if($clzInfo.superClass)
             <tr><td>Base Class</td><td>#showClassName($classMap $clzInfo.superClass.className $id)</td></tr>
             #elseif($clzInfo.superClassName)
-            <tr><td>Base Class</td><td>$clzInfo.superClassName</td>
+            <tr><td>Base Class</td><td>$clzInfo.superClassName</td></tr>
             #else
-            <tr><td>Base Class</td><td>java/lang/Object</td>
+            <tr><td>Base Class</td><td>java/lang/Object</td></tr>
             #end
             #if($clzInfo.interfaceNames.size()>0)
             <tr><td>Interfaces</td>
