@@ -222,11 +222,10 @@ body {
   float: left;
   top: 0;
   left: 20px;
-  width: 320px;
-  margin-right: 20px;
 }
 .container-fluid > .content {
-  overflow: auto;
+  margin-left: 20px;
+  float: left;
 }
 a {
   color: #0069d6;

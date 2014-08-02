@@ -88,7 +88,8 @@ public class CollectDepsMethodVisitor extends MethodVisitor {
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
     	Type type = Type.getType(desc);
-    	String internalName = type.getInternalName();
+    	// System.out.println("name=" + name + ", desc=" + desc + ", type=" + type);
+    	String internalName = type.getDescriptor();
         this.methodInfo.addDependency(internalName);
     }
 

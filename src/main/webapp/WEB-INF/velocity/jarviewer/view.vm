@@ -222,14 +222,6 @@
         </div>
         </div><!-- end of tab baseinfo -->
         
-        <div class="span6 tab-pane fade" id="asmdump"><!-- tab asmdump -->
-        asmdump
-        </div><!-- end of tab asmdump -->
-        
-        <div class="span6 tab-pane fade" id="depgraph"><!-- tab depgraph -->
-        depgraph
-        </div><!-- end of depgraph -->
-        
        #else
        <div class="row">
           <div class="span6">
@@ -237,9 +229,8 @@
          </div>
         </div>
        #end
-        <hr>
-
-        #include("/footer.vm")
+        
+        <div style="clear: both;"><hr>#include("/footer.vm")</div>
       </div>
     </div>
 
