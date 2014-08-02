@@ -5,18 +5,21 @@ import org.hydra.renamer.ClassMap;
 import org.hydra.renamer.FieldInfo;
 import org.hydra.renamer.MethodInfo;
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.EmptyVisitor;
+import org.objectweb.asm.Opcodes;
 
-public class CollectClassInfoVisitor extends EmptyVisitor {
+public class CollectClassInfoVisitor extends ClassVisitor {
     private ClassMap map;
     private String className;
     private ClassInfo info;
 
     public CollectClassInfoVisitor(ClassMap map) {
-        this.map = map;
-    }
+		super(Opcodes.ASM5);
+		
+		this.map = map;
+	}
 
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {

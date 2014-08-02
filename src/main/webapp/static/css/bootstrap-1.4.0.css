@@ -219,13 +219,14 @@ body {
   clear: both;
 }
 .container-fluid > .sidebar {
-  position: absolute;
+  float: left;
   top: 0;
   left: 20px;
   width: 320px;
+  margin-right: 20px;
 }
 .container-fluid > .content {
-  margin-left: 340px;
+  overflow: auto;
 }
 a {
   color: #0069d6;
@@ -2464,4 +2465,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+#matchClass {
+	margin-right: 5px;
 }

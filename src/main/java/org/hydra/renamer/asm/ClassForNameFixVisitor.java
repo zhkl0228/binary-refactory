@@ -1,14 +1,14 @@
 package org.hydra.renamer.asm;
 
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
-public class ClassForNameFixVisitor extends ClassAdapter {
+public class ClassForNameFixVisitor extends ClassVisitor {
     private Remapper remapper;
 
     public ClassForNameFixVisitor(ClassVisitor cv, Remapper mapper) {
-        super(cv);
+        super(Opcodes.ASM5, cv);
         this.remapper = mapper;
     }
 

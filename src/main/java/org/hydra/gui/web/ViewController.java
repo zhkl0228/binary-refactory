@@ -29,9 +29,11 @@ import org.hydra.renamer.ClassInfo;
 import org.hydra.renamer.ClassMap;
 import org.hydra.renamer.ClassMap.ClassWalker;
 import org.hydra.renamer.RenameConfig;
-import org.hydra.renamer.asm.MyTraceClassVisitor;
+import org.hydra.renamer.asm.LowercaseOpcodeTextifier;
 import org.hydra.util.Utils;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +56,7 @@ public class ViewController {
 
         clazzName = clazzName != null ? clazzName.replace('.', '/') : null;
 
-        model.addAttribute("clzName", clazzName);
+        model.addAttribute("clzName", clazzName == null ? null : clazzName.replace('/', '.'));
         model.addAttribute("id", jar);
 
         if (Database.get(jar) == null) {
@@ -231,9 +233,11 @@ public class ViewController {
 	private String asmDump(InputStream inputStream) throws IOException {
         ClassReader reader = new ClassReader(inputStream);
 
+        Textifier lowercase = new LowercaseOpcodeTextifier();
+        reader.accept(new TraceClassVisitor(null, lowercase, null), 0);
         StringWriter writer = new StringWriter();
-        reader.accept(new MyTraceClassVisitor(new PrintWriter(writer)), 0);
-        String code = writer.toString().trim();
+        lowercase.print(new PrintWriter(writer));
+        String code = writer.toString();
         return code;
     }
 

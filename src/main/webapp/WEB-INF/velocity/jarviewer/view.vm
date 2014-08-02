@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>View $!clzName</title>
+    <title>$!clzName</title>
     <meta name="author" content="Argan Wang">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -73,10 +73,10 @@
 <font color="red">$!str</font>
 #end
 #macro(showFlags $node)
-    #if($node.public)#red("P")#end
-    #if($node.abstract)#red("A")#end
-    #if($node.final)#red("F")#end
-    #if($node.static)#red("S")#end
+    #if($node.public)#red("public")#end
+    #if($node.abstract)#red("abstract")#end
+    #if($node.static)#red("static")#end
+    #if($node.final)#red("final")#end
 #end
     <div class="container-fluid">
       <div class="sidebar">
@@ -100,7 +100,7 @@
       </div>
       
       <div class="content">
-      <form onSubmit="return search();">Goto:<input type="text" id="matchClass"><input type="button" onclick="search();" value="Go"></form>
+      <form onSubmit="return search();"><input type="text" id="matchClass"><input type="button" onclick="search();" value="Go"></form>
 		#set($clzInfo = $classMap.getClassInfo($clzName))
         #if($clzInfo)
 		

@@ -4,15 +4,18 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
-public class MethodSignatureCollector implements MethodVisitor {
+public class MethodSignatureCollector extends MethodVisitor {
     private MethodSignature methodSig;
 
     public MethodSignatureCollector(MethodSignature methodSig) {
-        this.methodSig = methodSig;
-    }
+		super(Opcodes.ASM5);
+		
+		this.methodSig = methodSig;
+	}
 
-    public AnnotationVisitor visitAnnotationDefault() {
+	public AnnotationVisitor visitAnnotationDefault() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -78,10 +81,6 @@ public class MethodSignatureCollector implements MethodVisitor {
     }
 
     public void visitIincInsn(int var, int increment) {
-
-    }
-
-    public void visitTableSwitchInsn(int min, int max, Label dflt, Label[] labels) {
 
     }
 

@@ -3,18 +3,21 @@ package org.hydra.renamer.asm;
 import org.hydra.renamer.MethodInfo;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.EmptyVisitor;
 
-public class CollectDepsMethodVisitor extends EmptyVisitor {
+public class CollectDepsMethodVisitor extends MethodVisitor {
 
     private MethodInfo methodInfo;
 
     public CollectDepsMethodVisitor(MethodInfo methodInfo) {
-        this.methodInfo = methodInfo;
-    }
+		super(Opcodes.ASM5);
+		
+		this.methodInfo = methodInfo;
+	}
 
-    @Override
+	@Override
     public AnnotationVisitor visitAnnotationDefault() {
         // TODO to implement
         return null;
@@ -84,7 +87,9 @@ public class CollectDepsMethodVisitor extends EmptyVisitor {
 
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        this.methodInfo.addDependency(Type.getType(desc).getInternalName());
+    	Type type = Type.getType(desc);
+    	String internalName = type.getInternalName();
+        this.methodInfo.addDependency(internalName);
     }
 
 }

@@ -11,8 +11,13 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class ClassSignatureCollector implements ClassVisitor {
-    private Map<String, ClassSignature> info = new HashMap<String, ClassSignature>();
+public class ClassSignatureCollector extends ClassVisitor {
+	
+    public ClassSignatureCollector() {
+		super(Opcodes.ASM5);
+	}
+
+	private Map<String, ClassSignature> info = new HashMap<String, ClassSignature>();
     private ClassSignature clazz;
 
     public Map<String, ClassSignature> getResult() {
