@@ -195,6 +195,12 @@ public class ViewController {
             String code = "";
 
             JarEntry entry = jarFile.getJarEntry(clazzName);
+            if(entry == null) {
+            	model.addAttribute("code", clazzName + "不存在");
+            	jarFile.close();
+            	return;
+            }
+            
             InputStream inputStream = jarFile.getInputStream(entry);
 
             if (type.equals("asmdump")) {

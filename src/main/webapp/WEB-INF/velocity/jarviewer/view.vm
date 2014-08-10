@@ -79,6 +79,7 @@
     #if($node.static)#red("static")#end
     #if($node.final)#red("final")#end
     #if($node.abstract)#red("abstract")#end
+    #if($node.native)#red("native")#end
 #end
     <div class="container-fluid">
       <div class="sidebar">

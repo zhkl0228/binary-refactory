@@ -50,4 +50,8 @@ public abstract class AccessableNode {
     public boolean isSynchronized() {
     	return Modifier.isSynchronized(this.access);
     }
+    
+    public boolean isNative() {
+    	return Modifier.isNative(this.access);
+    }
 }
